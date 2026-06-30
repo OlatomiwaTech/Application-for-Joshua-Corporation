@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CoinTrack</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
+          },
+          boxShadow: {
+            soft: '0 20px 60px rgba(15, 23, 42, 0.12)'
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="min-h-screen bg-slate-100 text-slate-950 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
+  <div class="min-h-screen lg:flex">
+    <aside class="sticky top-0 z-30 border-b border-white/30 bg-white/75 px-4 py-3 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/80 lg:h-screen lg:w-80 lg:border-b-0 lg:border-r lg:px-6 lg:py-6">
+      <nav class="flex items-center justify-between gap-4 lg:h-full lg:flex-col lg:items-stretch" aria-label="Primary navigation">
+        <div>
+          <a href="#" class="flex items-center gap-3" aria-label="CoinTrack dashboard">
+            <span class="brand-logo-wrap">
+              <img class="brand-logo" src="assets/cointrack-logo.png" alt="CoinTrack logo">
+            </span>
+            <span>
+              <span class="block text-base font-extrabold tracking-tight">CoinTrack</span>
+              <span class="hidden text-xs font-medium text-slate-500 dark:text-slate-400 sm:block">Personal finance dashboard</span>
+            </span>
+          </a>
+          <div class="mt-8 hidden space-y-2 lg:block">
+            <a class="nav-link active" href="#dashboard">Dashboard</a>
+            <a class="nav-link" href="#add-transaction">Add Transaction</a>
+            <a class="nav-link" href="#transactions">History</a>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 lg:block lg:space-y-4">
+          <button id="themeToggle" class="icon-btn" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+            <svg class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 4V2m0 20v-2m8-8h2M2 12h2m13.66-5.66 1.42-1.42M4.92 19.08l1.42-1.42m0-11.32L4.92 4.92m14.16 14.16-1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <svg class="hidden h-5 w-5 dark:block" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M21 14.4A8.2 8.2 0 0 1 9.6 3a8.7 8.7 0 1 0 11.4 11.4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="hidden rounded-2xl border border-slate-200 bg-white/70 p-4 text-sm text-slate-600 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-slate-300 lg:block">
+            <p class="font-semibold text-slate-900 dark:text-white">Monthly snapshot</p>
+            <p class="mt-1">Track income, expenses, and category pressure in one place.</p>
+          </div>
+        </div>
+      </nav>
+    </aside>
+
+    <main id="dashboard" class="flex-1 px-4 py-5 sm:px-6 lg:px-8 lg:py-8">
+      <header class="mx-auto max-w-7xl">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">Personal ledger</p>
+            <h1 class="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">Money dashboard</h1>
+          </div>
+          <p id="todayLabel" class="text-sm font-medium text-slate-500 dark:text-slate-400"></p>
+        </div>
+
+        <section class="mt-6 grid gap-4 md:grid-cols-3" aria-label="Financial summary">
+          <article class="summary-card">
+            <p class="summary-label">Total Balance</p>
+            <p id="balanceValue" class="summary-value">$0.00</p>
+          </article>
+          <article class="summary-card">
+            <p class="summary-label">Monthly Income</p>
+            <p id="incomeValue" class="summary-value text-emerald-600 dark:text-emerald-400">$0.00</p>
+          </article>
+          <article class="summary-card">
+            <p class="summary-label">Monthly Expenses</p>
+            <p id="expenseValue" class="summary-value text-rose-600 dark:text-rose-400">$0.00</p>
+          </article>
+        </section>
+      </header>
+
+      <div class="mx-auto mt-6 grid max-w-7xl gap-6 xl:grid-cols-[0.95fr_1.35fr]">
+        <section class="space-y-6">
+          <form id="transactionForm" class="panel" novalidate>
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <h2 id="add-transaction" class="section-title">Add Transaction</h2>
+                <p class="section-subtitle">Income and expenses normalize automatically.</p>
+              </div>
+              <div class="segmented" role="radiogroup" aria-label="Transaction type">
+                <label>
+                  <input class="sr-only" type="radio" name="type" value="income" checked>
+                  <span>Income</span>
+                </label>
+                <label>
+                  <input class="sr-only" type="radio" name="type" value="expense">
+                  <span>Expense</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="mt-6 grid gap-4">
+              <div>
+                <label class="field-label" for="title">Title or description</label>
+                <input id="title" name="title" class="field" type="text" placeholder="Client payment, groceries..." autocomplete="off">
+                <p class="error-message" data-error-for="title"></p>
+              </div>
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label class="field-label" for="amount">Amount</label>
+                  <input id="amount" name="amount" class="field" type="number" step="0.01" min="0.01" placeholder="0.00" inputmode="decimal">
+                  <p class="error-message" data-error-for="amount"></p>
+                </div>
+                <div>
+                  <label class="field-label" for="date">Date</label>
+                  <input id="date" name="date" class="field" type="date">
+                  <p class="error-message" data-error-for="date"></p>
+                </div>
+              </div>
+              <div>
+                <label class="field-label" for="category">Category</label>
+                <select id="category" name="category" class="field">
+                  <option value="">Select category</option>
+                </select>
+                <p class="error-message" data-error-for="category"></p>
+              </div>
+            </div>
+
+            <button class="primary-btn mt-6 w-full" type="submit">
+              <span>Add transaction</span>
+            </button>
+          </form>
+
+          <section class="panel" aria-labelledby="breakdownTitle">
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 id="breakdownTitle" class="section-title">Category Breakdown</h2>
+                <p class="section-subtitle">Expense share by category.</p>
+              </div>
+            </div>
+            <div id="categoryBreakdown" class="mt-5 space-y-4" aria-live="polite"></div>
+          </section>
+        </section>
+
+        <section class="panel min-h-[540px]" aria-labelledby="transactionsTitle">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <h2 id="transactionsTitle" class="section-title">Transaction History</h2>
+              <p id="resultCount" class="section-subtitle">0 transactions</p>
+            </div>
+            <div class="grid gap-3 sm:grid-cols-3 lg:min-w-[560px]">
+              <div class="sm:col-span-1">
+                <label class="sr-only" for="search">Search transactions</label>
+                <input id="search" class="field" type="search" placeholder="Search..." autocomplete="off">
+              </div>
+              <div>
+                <label class="sr-only" for="typeFilter">Filter by type</label>
+                <select id="typeFilter" class="field">
+                  <option value="all">All types</option>
+                  <option value="income">Income</option>
+                  <option value="expense">Expense</option>
+                </select>
+              </div>
+              <div>
+                <label class="sr-only" for="categoryFilter">Filter by category</label>
+                <select id="categoryFilter" class="field">
+                  <option value="all">All categories</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div id="transactions" class="mt-5 max-h-[620px] space-y-3 overflow-y-auto pr-1" aria-live="polite"></div>
+          <div id="emptyState" class="hidden py-16 text-center">
+            <p class="text-lg font-bold text-slate-900 dark:text-white">No transactions found</p>
+            <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Adjust your filters or add a new transaction.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
