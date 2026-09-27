@@ -1,196 +1,262 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="antialiased">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CoinTrack</title>
-  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>CoinTrack — Personal Finance Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
-          },
-          boxShadow: {
-            soft: '0 20px 60px rgba(15, 23, 42, 0.12)'
-          }
-        }
-      }
-    };
-  </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="min-h-screen bg-slate-100 text-slate-950 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
-  <div class="min-h-screen lg:flex">
-    <aside class="sticky top-0 z-30 border-b border-white/30 bg-white/75 px-4 py-3 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/80 lg:h-screen lg:w-80 lg:border-b-0 lg:border-r lg:px-6 lg:py-6">
-      <nav class="flex items-center justify-between gap-4 lg:h-full lg:flex-col lg:items-stretch" aria-label="Primary navigation">
-        <div>
-          <a href="#" class="flex items-center gap-3" aria-label="CoinTrack dashboard">
-            <span class="brand-logo-wrap">
-              <img class="brand-logo" src="assets/cointrack-logo.png" alt="CoinTrack logo">
-            </span>
-            <span>
-              <span class="block text-base font-extrabold tracking-tight">CoinTrack</span>
-              <span class="hidden text-xs font-medium text-slate-500 dark:text-slate-400 sm:block">Personal finance dashboard</span>
-            </span>
-          </a>
-          <div class="mt-8 hidden space-y-2 lg:block">
-            <a class="nav-link active" href="#dashboard">Dashboard</a>
-            <a class="nav-link" href="#add-transaction">Add Transaction</a>
-            <a class="nav-link" href="#transactions">History</a>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200">
+  
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/80 dark:bg-slate-950/80 border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center gap-3">
+          <div class="brand-logo-wrap">
+            <img src="assets/cointrack-logo.png" alt="CoinTrack Logo" class="brand-logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'text-emerald-600 font-black text-xl\'>CT</span>'" />
           </div>
-        </div>
-
-        <div class="flex items-center gap-2 lg:block lg:space-y-4">
-          <button id="themeToggle" class="icon-btn" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
-            <svg class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 4V2m0 20v-2m8-8h2M2 12h2m13.66-5.66 1.42-1.42M4.92 19.08l1.42-1.42m0-11.32L4.92 4.92m14.16 14.16-1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            <svg class="hidden h-5 w-5 dark:block" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M21 14.4A8.2 8.2 0 0 1 9.6 3a8.7 8.7 0 1 0 11.4 11.4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <div class="hidden rounded-2xl border border-slate-200 bg-white/70 p-4 text-sm text-slate-600 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-slate-300 lg:block">
-            <p class="font-semibold text-slate-900 dark:text-white">Monthly snapshot</p>
-            <p class="mt-1">Track income, expenses, and category pressure in one place.</p>
-          </div>
-        </div>
-      </nav>
-    </aside>
-
-    <main id="dashboard" class="flex-1 px-4 py-5 sm:px-6 lg:px-8 lg:py-8">
-      <header class="mx-auto max-w-7xl">
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p class="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">Personal ledger</p>
-            <h1 class="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">Money dashboard</h1>
+            <h1 class="text-lg font-black tracking-tight text-slate-900 dark:text-white">CoinTrack</h1>
+            <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Personal Finance Dashboard</p>
           </div>
-          <p id="todayLabel" class="text-sm font-medium text-slate-500 dark:text-slate-400"></p>
         </div>
+        <div class="flex items-center gap-2">
+          <button id="themeToggle" class="icon-btn" aria-label="Toggle dark mode">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+          </button>
+          <button id="dataMenuBtn" class="icon-btn" aria-label="Data management menu">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
 
-        <section class="mt-6 grid gap-4 md:grid-cols-3" aria-label="Financial summary">
-          <article class="summary-card">
-            <p class="summary-label">Total Balance</p>
-            <p id="balanceValue" class="summary-value">$0.00</p>
-          </article>
-          <article class="summary-card">
-            <p class="summary-label">Monthly Income</p>
-            <p id="incomeValue" class="summary-value text-emerald-600 dark:text-emerald-400">$0.00</p>
-          </article>
-          <article class="summary-card">
-            <p class="summary-label">Monthly Expenses</p>
-            <p id="expenseValue" class="summary-value text-rose-600 dark:text-rose-400">$0.00</p>
-          </article>
-        </section>
-      </header>
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    
+    <!-- Period Selector -->
+    <section class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <h2 class="section-title">Financial Overview</h2>
+        <p class="section-subtitle" id="currentPeriodLabel">This Month</p>
+      </div>
+      <select id="periodSelector" class="field sm:w-auto" aria-label="Select financial period">
+        <option value="currentMonth">This Month</option>
+        <option value="lastMonth">Last Month</option>
+        <option value="last30">Last 30 Days</option>
+        <option value="last90">Last 90 Days</option>
+        <option value="thisYear">This Year</option>
+        <option value="all">All Time</option>
+      </select>
+    </section>
 
-      <div class="mx-auto mt-6 grid max-w-7xl gap-6 xl:grid-cols-[0.95fr_1.35fr]">
-        <section class="space-y-6">
-          <form id="transactionForm" class="panel" novalidate>
-            <div class="flex items-center justify-between gap-3">
-              <div>
-                <h2 id="add-transaction" class="section-title">Add Transaction</h2>
-                <p class="section-subtitle">Income and expenses normalize automatically.</p>
-              </div>
-              <div class="segmented" role="radiogroup" aria-label="Transaction type">
-                <label>
-                  <input class="sr-only" type="radio" name="type" value="income" checked>
-                  <span>Income</span>
-                </label>
-                <label>
-                  <input class="sr-only" type="radio" name="type" value="expense">
-                  <span>Expense</span>
-                </label>
-              </div>
+    <!-- Summary Cards -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" aria-live="polite">
+      <div class="summary-card">
+        <p class="summary-label">Net Balance</p>
+        <p class="summary-value text-slate-900 dark:text-white" id="balanceValue">₦0.00</p>
+      </div>
+      <div class="summary-card">
+        <p class="summary-label">Total Income</p>
+        <p class="summary-value text-emerald-600 dark:text-emerald-400" id="incomeValue">₦0.00</p>
+      </div>
+      <div class="summary-card">
+        <p class="summary-label">Total Expenses</p>
+        <p class="summary-value text-rose-600 dark:text-rose-400" id="expenseValue">₦0.00</p>
+      </div>
+      <div class="summary-card">
+        <p class="summary-label">Savings Rate</p>
+        <p class="summary-value text-blue-600 dark:text-blue-400" id="savingsRateValue">0%</p>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1" id="cashFlowLabel">Net cash flow: ₦0.00</p>
+      </div>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Left Column: Add Transaction & Budgets -->
+      <div class="space-y-8 lg:col-span-1">
+        <!-- Add Transaction Panel -->
+        <section class="panel">
+          <h3 class="section-title mb-1">Add Transaction</h3>
+          <p class="section-subtitle mb-6">Income and expenses normalize automatically.</p>
+          
+          <form id="transactionForm" class="space-y-4" novalidate>
+            <input type="hidden" id="editTransactionId" value="" />
+            
+            <div class="segmented w-full">
+              <label class="cursor-pointer">
+                <input type="radio" name="type" value="income" class="sr-only" checked />
+                <span>Income</span>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="type" value="expense" class="sr-only" />
+                <span>Expense</span>
+              </label>
             </div>
 
-            <div class="mt-6 grid gap-4">
+            <div>
+              <label for="title" class="field-label">Title or description</label>
+              <input type="text" id="title" name="title" class="field" placeholder="e.g., Weekly groceries" autocomplete="off" />
+              <p class="error-message" data-error-for="title"></p>
+            </div>
+
+            <div>
+              <label for="amount" class="field-label">Amount (₦)</label>
+              <input type="number" id="amount" name="amount" class="field" placeholder="0.00" step="0.01" min="0.01" />
+              <p class="error-message" data-error-for="amount"></p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="field-label" for="title">Title or description</label>
-                <input id="title" name="title" class="field" type="text" placeholder="Client payment, groceries..." autocomplete="off">
-                <p class="error-message" data-error-for="title"></p>
-              </div>
-              <div class="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label class="field-label" for="amount">Amount</label>
-                  <input id="amount" name="amount" class="field" type="number" step="0.01" min="0.01" placeholder="0.00" inputmode="decimal">
-                  <p class="error-message" data-error-for="amount"></p>
-                </div>
-                <div>
-                  <label class="field-label" for="date">Date</label>
-                  <input id="date" name="date" class="field" type="date">
-                  <p class="error-message" data-error-for="date"></p>
-                </div>
+                <label for="date" class="field-label">Date</label>
+                <input type="date" id="date" name="date" class="field" />
+                <p class="error-message" data-error-for="date"></p>
               </div>
               <div>
-                <label class="field-label" for="category">Category</label>
+                <label for="category" class="field-label">Category</label>
                 <select id="category" name="category" class="field">
-                  <option value="">Select category</option>
+                  <option value="">Select...</option>
                 </select>
                 <p class="error-message" data-error-for="category"></p>
               </div>
             </div>
 
-            <button class="primary-btn mt-6 w-full" type="submit">
-              <span>Add transaction</span>
-            </button>
-          </form>
-
-          <section class="panel" aria-labelledby="breakdownTitle">
-            <div class="flex items-center justify-between">
-              <div>
-                <h2 id="breakdownTitle" class="section-title">Category Breakdown</h2>
-                <p class="section-subtitle">Expense share by category.</p>
-              </div>
+            <div>
+              <label for="notes" class="field-label">Notes (Optional)</label>
+              <input type="text" id="notes" name="notes" class="field" placeholder="Additional details..." />
             </div>
-            <div id="categoryBreakdown" class="mt-5 space-y-4" aria-live="polite"></div>
-          </section>
+
+            <div class="flex gap-3 pt-2">
+              <button type="submit" class="primary-btn flex-1" id="submitBtn">Add Transaction</button>
+              <button type="button" id="cancelEditBtn" class="hidden icon-btn" aria-label="Cancel edit">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+          </form>
         </section>
 
-        <section class="panel min-h-[540px]" aria-labelledby="transactionsTitle">
-          <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <!-- Budgets Panel -->
+        <section class="panel">
+          <div class="flex items-center justify-between mb-4">
             <div>
-              <h2 id="transactionsTitle" class="section-title">Transaction History</h2>
-              <p id="resultCount" class="section-subtitle">0 transactions</p>
+              <h3 class="section-title">Category Budgets</h3>
+              <p class="section-subtitle">Track your spending limits.</p>
             </div>
-            <div class="grid gap-3 sm:grid-cols-3 lg:min-w-[560px]">
-              <div class="sm:col-span-1">
-                <label class="sr-only" for="search">Search transactions</label>
-                <input id="search" class="field" type="search" placeholder="Search..." autocomplete="off">
-              </div>
-              <div>
-                <label class="sr-only" for="typeFilter">Filter by type</label>
-                <select id="typeFilter" class="field">
-                  <option value="all">All types</option>
-                  <option value="income">Income</option>
-                  <option value="expense">Expense</option>
-                </select>
-              </div>
-              <div>
-                <label class="sr-only" for="categoryFilter">Filter by category</label>
-                <select id="categoryFilter" class="field">
-                  <option value="all">All categories</option>
-                </select>
-              </div>
-            </div>
+            <button id="editBudgetsBtn" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline">Manage</button>
           </div>
-
-          <div id="transactions" class="mt-5 max-h-[620px] space-y-3 overflow-y-auto pr-1" aria-live="polite"></div>
-          <div id="emptyState" class="hidden py-16 text-center">
-            <p class="text-lg font-bold text-slate-900 dark:text-white">No transactions found</p>
-            <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Adjust your filters or add a new transaction.</p>
+          <div id="budgetBreakdown" class="space-y-4">
+            <!-- Populated by JS -->
           </div>
         </section>
       </div>
-    </main>
-  </div>
+
+      <!-- Right Column: Analytics & History -->
+      <div class="space-y-8 lg:col-span-2">
+        
+        <!-- Category Breakdown -->
+        <section class="panel">
+          <h3 class="section-title mb-1">Expense Breakdown</h3>
+          <p class="section-subtitle mb-6">Spending distribution by category for the selected period.</p>
+          <div id="categoryBreakdown" class="space-y-4">
+            <!-- Populated by JS -->
+          </div>
+        </section>
+
+        <!-- Transaction History -->
+        <section class="panel">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h3 class="section-title">Transaction History</h3>
+              <p class="section-subtitle" id="resultCount">0 transactions</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <input type="text" id="search" class="field sm:w-48" placeholder="Search transactions..." aria-label="Search transactions" />
+              <select id="typeFilter" class="field sm:w-auto" aria-label="Filter by type">
+                <option value="all">All types</option>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+              <select id="categoryFilter" class="field sm:w-auto" aria-label="Filter by category">
+                <option value="all">All categories</option>
+              </select>
+              <select id="sortFilter" class="field sm:w-auto" aria-label="Sort transactions">
+                <option value="date-desc">Newest first</option>
+                <option value="date-asc">Oldest first</option>
+                <option value="amount-desc">Highest amount</option>
+                <option value="amount-asc">Lowest amount</option>
+              </select>
+              <button id="resetFiltersBtn" class="icon-btn" aria-label="Reset all filters" title="Reset filters">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+              </button>
+            </div>
+          </div>
+
+          <div id="emptyState" class="hidden text-center py-12">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 mb-4">
+              <svg class="w-8 h-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+            </div>
+            <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1">No transactions found</h4>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Adjust your filters or add a new transaction.</p>
+          </div>
+
+          <div id="transactions" class="space-y-3" aria-live="polite">
+            <!-- Populated by JS -->
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Data Management Modal -->
+  <dialog id="dataModal" class="panel w-full max-w-md p-0 backdrop:bg-black/50 dark:backdrop:bg-black/70 open:animate-in open:fade-in open:zoom-in-95 duration-200">
+    <div class="p-6 border-b border-slate-200 dark:border-slate-800">
+      <h3 class="section-title">Data Management</h3>
+      <p class="section-subtitle">Export, import, or clear your financial data.</p>
+    </div>
+    <div class="p-6 space-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <button id="exportJsonBtn" class="primary-btn text-sm">Export JSON</button>
+        <button id="exportCsvBtn" class="icon-btn text-sm font-bold border-slate-300 dark:border-slate-700">Export CSV</button>
+      </div>
+      <div class="relative">
+        <input type="file" id="importFile" accept=".json" class="hidden" />
+        <button id="importJsonBtn" class="w-full icon-btn text-sm font-bold border-slate-300 dark:border-slate-700">Import JSON</button>
+      </div>
+      <div class="pt-4 border-t border-slate-200 dark:border-slate-800">
+        <button id="clearDataBtn" class="w-full py-3 rounded-xl bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 font-bold text-sm hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-colors">
+          Clear All Data
+        </button>
+      </div>
+    </div>
+    <div class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-b-2xl flex justify-end">
+      <button id="closeDataModalBtn" class="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Close</button>
+    </div>
+  </dialog>
+
+  <!-- Budget Management Modal -->
+  <dialog id="budgetModal" class="panel w-full max-w-lg p-0 backdrop:bg-black/50 dark:backdrop:bg-black/70 open:animate-in open:fade-in open:zoom-in-95 duration-200">
+    <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+      <div>
+        <h3 class="section-title">Manage Budgets</h3>
+        <p class="section-subtitle">Set monthly spending limits per category.</p>
+      </div>
+      <button id="closeBudgetModalBtn" class="icon-btn" aria-label="Close budget modal">
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+    </div>
+    <div class="p-6 max-h-[60vh] overflow-y-auto" id="budgetFormContainer">
+      <!-- Populated by JS -->
+    </div>
+    <div class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-b-2xl flex justify-end gap-3">
+      <button id="cancelBudgetBtn" class="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Cancel</button>
+      <button id="saveBudgetsBtn" class="primary-btn px-6">Save Budgets</button>
+    </div>
+  </dialog>
 
   <script src="app.js"></script>
 </body>
