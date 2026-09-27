@@ -1,275 +1,283 @@
 <!DOCTYPE html>
-<html lang="en" class="antialiased">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
   <title>CoinTrack — Personal Finance Dashboard</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind (kept from original stack) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-  <!-- TAILWIND CONFIG: Force 'class' strategy for dark mode -->
   <script>
+    /* CRITICAL FIX: make Tailwind's dark: variants respond to the .dark class
+       that app.js toggles, instead of the OS media query. */
     tailwind.config = {
       darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-          },
-        },
-      },
-    }
+      theme: { extend: { fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] } } }
+    };
   </script>
-<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200">
-  
-  <!-- Header -->
-  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/80 dark:bg-slate-950/80 border-b border-slate-200 dark:border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <div class="flex items-center gap-3">
-          <div class="brand-logo-wrap">
-            <img src="assets/cointrack-logo.png" alt="CoinTrack Logo" class="brand-logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'text-emerald-600 font-black text-xl\'>CT</span>'" />
-          </div>
-          <div>
-            <h1 class="text-lg font-black tracking-tight text-slate-900 dark:text-white">CoinTrack</h1>
-            <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Personal Finance Dashboard</p>
-          </div>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============ TOP BAR ============ -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-logo-wrap" aria-hidden="true">
+          <img class="brand-logo" src="assets/cointrack-logo.png" alt=""
+               onerror="this.style.display='none';this.parentNode.textContent='₵';" />
         </div>
-        <div class="flex items-center gap-2">
-          <button id="themeToggle" class="icon-btn" aria-label="Toggle dark mode">
-            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
-          </button>
-          <button id="dataMenuBtn" class="icon-btn" aria-label="Data management menu">
-            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-          </button>
+        <div>
+          <p class="brand-name">CoinTrack</p>
+          <p class="brand-tag">Personal finance</p>
         </div>
+      </div>
+
+      <div class="topbar-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Toggle dark mode" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </button>
+        <button id="dataMenuBtn" class="icon-btn" aria-label="Data management" title="Import / export data">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+        </button>
       </div>
     </div>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-    
-    <!-- Period Selector -->
-    <section class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+  <main class="shell">
+
+    <!-- ============ PAGE HEAD ============ -->
+    <div class="page-head">
       <div>
-        <h2 class="section-title">Financial Overview</h2>
-        <p class="section-subtitle" id="currentPeriodLabel">This Month</p>
+        <h1 class="page-title">Overview</h1>
+        <p class="page-sub" id="currentPeriodLabel">This month</p>
       </div>
-      <select id="periodSelector" class="field sm:w-auto" aria-label="Select financial period">
-        <option value="currentMonth">This Month</option>
-        <option value="lastMonth">Last Month</option>
-        <option value="last30">Last 30 Days</option>
-        <option value="last90">Last 90 Days</option>
-        <option value="thisYear">This Year</option>
-        <option value="all">All Time</option>
+      <label class="sr-only" for="periodSelector">Period</label>
+      <select id="periodSelector" class="field period-select">
+        <option value="currentMonth">This month</option>
+        <option value="lastMonth">Last month</option>
+        <option value="last30">Last 30 days</option>
+        <option value="last90">Last 90 days</option>
+        <option value="thisYear">This year</option>
+        <option value="all">All time</option>
       </select>
+    </div>
+
+    <!-- ============ SUMMARY CARDS ============ -->
+    <section class="stats-grid" aria-live="polite" aria-label="Financial summary">
+      <div class="stat-card">
+        <p class="stat-label">Net balance</p>
+        <p class="stat-value" id="balanceValue">₦0.00</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Income</p>
+        <p class="stat-value stat-income" id="incomeValue">₦0.00</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Expenses</p>
+        <p class="stat-value stat-expense" id="expenseValue">₦0.00</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Savings rate</p>
+        <p class="stat-value" id="savingsRateValue">0%</p>
+        <p class="stat-foot" id="cashFlowLabel">Net cash flow ₦0.00</p>
+      </div>
     </section>
 
-    <!-- Summary Cards -->
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" aria-live="polite">
-      <div class="summary-card">
-        <p class="summary-label">Net Balance</p>
-        <p class="summary-value text-slate-900 dark:text-white" id="balanceValue">₦0.00</p>
-      </div>
-      <div class="summary-card">
-        <p class="summary-label">Total Income</p>
-        <p class="summary-value text-emerald-600 dark:text-emerald-400" id="incomeValue">₦0.00</p>
-      </div>
-      <div class="summary-card">
-        <p class="summary-label">Total Expenses</p>
-        <p class="summary-value text-rose-600 dark:text-rose-400" id="expenseValue">₦0.00</p>
-      </div>
-      <div class="summary-card">
-        <p class="summary-label">Savings Rate</p>
-        <p class="summary-value text-blue-600 dark:text-blue-400" id="savingsRateValue">0%</p>
-        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1" id="cashFlowLabel">Net cash flow: ₦0.00</p>
-      </div>
-    </section>
+    <!-- ============ CONTENT GRID ============ -->
+    <div class="content-grid">
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      
-      <!-- Left Column: Add Transaction & Budgets -->
-      <div class="space-y-8 lg:col-span-1">
-        <!-- Add Transaction Panel -->
-        <section class="panel">
-          <h3 class="section-title mb-1">Add Transaction</h3>
-          <p class="section-subtitle mb-6">Income and expenses normalize automatically.</p>
-          
-          <form id="transactionForm" class="space-y-4" novalidate>
-            <input type="hidden" id="editTransactionId" value="" />
-            
-            <div class="segmented w-full">
-              <label class="cursor-pointer">
-                <input type="radio" name="type" value="income" class="sr-only" checked />
-                <span>Income</span>
-              </label>
-              <label class="cursor-pointer">
-                <input type="radio" name="type" value="expense" class="sr-only" />
-                <span>Expense</span>
-              </label>
-            </div>
+      <div class="col-main">
 
+        <!-- Add transaction -->
+        <section class="card" id="add-transaction">
+          <div class="card-head">
             <div>
-              <label for="title" class="field-label">Title or description</label>
-              <input type="text" id="title" name="title" class="field" placeholder="e.g., Weekly groceries" autocomplete="off" />
-              <p class="error-message" data-error-for="title"></p>
+              <h2 class="card-title" id="formHeading">Add transaction</h2>
+              <p class="card-sub">Record income or an expense.</p>
+            </div>
+          </div>
+
+          <form id="transactionForm" novalidate>
+            <input type="hidden" id="editTransactionId" />
+
+            <div class="segmented" role="radiogroup" aria-label="Transaction type">
+              <label><input type="radio" name="type" value="income" checked /><span>Income</span></label>
+              <label><input type="radio" name="type" value="expense" /><span>Expense</span></label>
             </div>
 
-            <div>
-              <label for="amount" class="field-label">Amount (₦)</label>
-              <input type="number" id="amount" name="amount" class="field" placeholder="0.00" step="0.01" min="0.01" />
-              <p class="error-message" data-error-for="amount"></p>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label for="date" class="field-label">Date</label>
-                <input type="date" id="date" name="date" class="field" />
+            <div class="form-grid">
+              <div class="form-field full">
+                <label class="field-label" for="title">Title</label>
+                <input class="field" id="title" name="title" type="text" placeholder="e.g. Weekly groceries" autocomplete="off" />
+                <p class="error-message" data-error-for="title"></p>
+              </div>
+              <div class="form-field">
+                <label class="field-label" for="amount">Amount (₦)</label>
+                <input class="field" id="amount" name="amount" type="number" step="0.01" min="0.01" inputmode="decimal" placeholder="0.00" />
+                <p class="error-message" data-error-for="amount"></p>
+              </div>
+              <div class="form-field">
+                <label class="field-label" for="date">Date</label>
+                <input class="field" id="date" name="date" type="date" />
                 <p class="error-message" data-error-for="date"></p>
               </div>
-              <div>
-                <label for="category" class="field-label">Category</label>
-                <select id="category" name="category" class="field">
-                  <option value="">Select...</option>
-                </select>
+              <div class="form-field">
+                <label class="field-label" for="category">Category</label>
+                <select class="field" id="category" name="category"><option value="">Select category</option></select>
                 <p class="error-message" data-error-for="category"></p>
+              </div>
+              <div class="form-field">
+                <label class="field-label" for="notes">Notes <span class="muted">(optional)</span></label>
+                <input class="field" id="notes" name="notes" type="text" placeholder="Add a note" autocomplete="off" />
               </div>
             </div>
 
-            <div>
-              <label for="notes" class="field-label">Notes (Optional)</label>
-              <input type="text" id="notes" name="notes" class="field" placeholder="Additional details..." />
-            </div>
-
-            <div class="flex gap-3 pt-2">
-              <button type="submit" class="primary-btn flex-1" id="submitBtn">Add Transaction</button>
-              <button type="button" id="cancelEditBtn" class="hidden icon-btn" aria-label="Cancel edit">
-                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-              </button>
+            <div class="form-actions">
+              <button type="submit" id="submitBtn" class="btn btn-primary">Add transaction</button>
+              <button type="button" id="cancelEditBtn" class="btn btn-ghost hidden">Cancel</button>
             </div>
           </form>
         </section>
 
-        <!-- Budgets Panel -->
-        <section class="panel">
-          <div class="flex items-center justify-between mb-4">
+        <!-- Cash flow chart -->
+        <section class="card">
+          <div class="card-head">
             <div>
-              <h3 class="section-title">Category Budgets</h3>
-              <p class="section-subtitle">Track your spending limits.</p>
+              <h2 class="card-title">Cash flow</h2>
+              <p class="card-sub">Income vs expenses · last 6 months</p>
             </div>
-            <button id="editBudgetsBtn" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline">Manage</button>
+            <div class="legend" aria-hidden="true">
+              <span class="legend-item"><span class="dot dot-income"></span>Income</span>
+              <span class="legend-item"><span class="dot dot-expense"></span>Expenses</span>
+            </div>
           </div>
-          <div id="budgetBreakdown" class="space-y-4">
-            <!-- Populated by JS -->
+          <div id="cashflowChart" class="chart-wrap" role="img" aria-label="Bar chart of monthly income and expenses"></div>
+        </section>
+
+        <!-- Transactions -->
+        <section class="card" id="transactions-card">
+          <div class="card-head">
+            <div>
+              <h2 class="card-title">Transactions</h2>
+              <p class="card-sub" id="resultCount">0 transactions</p>
+            </div>
+            <button id="resetFiltersBtn" class="btn btn-ghost btn-sm" title="Reset filters">Reset</button>
           </div>
+
+          <div class="filters">
+            <input class="field" id="search" type="search" placeholder="Search…" aria-label="Search transactions" />
+            <select class="field" id="typeFilter" aria-label="Filter by type">
+              <option value="all">All types</option>
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+            <select class="field" id="categoryFilter" aria-label="Filter by category">
+              <option value="all">All categories</option>
+            </select>
+            <select class="field" id="sortFilter" aria-label="Sort transactions">
+              <option value="date-desc">Newest first</option>
+              <option value="date-asc">Oldest first</option>
+              <option value="amount-desc">Highest amount</option>
+              <option value="amount-asc">Lowest amount</option>
+            </select>
+          </div>
+
+          <div id="emptyState" class="empty hidden">
+            <p class="empty-title">No transactions found</p>
+            <p class="empty-sub">Adjust your filters or add a new transaction.</p>
+          </div>
+
+          <div id="transactions" class="tx-list" aria-live="polite"></div>
         </section>
       </div>
 
-      <!-- Right Column: Analytics & History -->
-      <div class="space-y-8 lg:col-span-2">
-        
-        <!-- Category Breakdown -->
-        <section class="panel">
-          <h3 class="section-title mb-1">Expense Breakdown</h3>
-          <p class="section-subtitle mb-6">Spending distribution by category for the selected period.</p>
-          <div id="categoryBreakdown" class="space-y-4">
-            <!-- Populated by JS -->
-          </div>
+      <div class="col-side">
+
+        <!-- Insights -->
+        <section class="card">
+          <div class="card-head"><div><h2 class="card-title">Insights</h2><p class="card-sub">Smart observations</p></div></div>
+          <ul id="insightsList" class="insights"></ul>
         </section>
 
-        <!-- Transaction History -->
-        <section class="panel">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-            <div>
-              <h3 class="section-title">Transaction History</h3>
-              <p class="section-subtitle" id="resultCount">0 transactions</p>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <input type="text" id="search" class="field sm:w-48" placeholder="Search transactions..." aria-label="Search transactions" />
-              <select id="typeFilter" class="field sm:w-auto" aria-label="Filter by type">
-                <option value="all">All types</option>
-                <option value="income">Income</option>
-                <option value="expense">Expense</option>
-              </select>
-              <select id="categoryFilter" class="field sm:w-auto" aria-label="Filter by category">
-                <option value="all">All categories</option>
-              </select>
-              <select id="sortFilter" class="field sm:w-auto" aria-label="Sort transactions">
-                <option value="date-desc">Newest first</option>
-                <option value="date-asc">Oldest first</option>
-                <option value="amount-desc">Highest amount</option>
-                <option value="amount-asc">Lowest amount</option>
-              </select>
-              <button id="resetFiltersBtn" class="icon-btn" aria-label="Reset all filters" title="Reset filters">
-                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-              </button>
-            </div>
+        <!-- Budgets -->
+        <section class="card">
+          <div class="card-head">
+            <div><h2 class="card-title">Budgets</h2><p class="card-sub">Monthly limits by category</p></div>
+            <button id="editBudgetsBtn" class="btn btn-ghost btn-sm">Manage</button>
           </div>
+          <div id="budgetBreakdown" class="stack"></div>
+        </section>
 
-          <div id="emptyState" class="hidden text-center py-12">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 mb-4">
-              <svg class="w-8 h-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-            </div>
-            <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1">No transactions found</h4>
-            <p class="text-sm text-slate-500 dark:text-slate-400">Adjust your filters or add a new transaction.</p>
-          </div>
-
-          <div id="transactions" class="space-y-3" aria-live="polite">
-            <!-- Populated by JS -->
-          </div>
+        <!-- Category breakdown -->
+        <section class="card">
+          <div class="card-head"><div><h2 class="card-title">Spending by category</h2><p class="card-sub">Share of expenses this period</p></div></div>
+          <div id="categoryBreakdown" class="stack"></div>
         </section>
       </div>
     </div>
   </main>
 
-  <!-- Data Management Modal -->
-  <dialog id="dataModal" class="panel w-full max-w-md p-0 backdrop:bg-black/50 dark:backdrop:bg-black/70 open:animate-in open:fade-in open:zoom-in-95 duration-200">
-    <div class="p-6 border-b border-slate-200 dark:border-slate-800">
-      <h3 class="section-title">Data Management</h3>
-      <p class="section-subtitle">Export, import, or clear your financial data.</p>
+  <!-- ============ DATA MODAL ============ -->
+  <dialog id="dataModal" class="modal">
+    <div class="modal-head">
+      <h2 class="modal-title">Data management</h2>
+      <button id="closeDataModalBtn" class="icon-btn" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
     </div>
-    <div class="p-6 space-y-4">
-      <div class="grid grid-cols-2 gap-3">
-        <button id="exportJsonBtn" class="primary-btn text-sm">Export JSON</button>
-        <button id="exportCsvBtn" class="icon-btn text-sm font-bold border-slate-300 dark:border-slate-700">Export CSV</button>
+    <div class="modal-body">
+      <p class="modal-text">Back up your data or restore it from a file. Everything stays in your browser.</p>
+      <div class="modal-grid">
+        <button id="exportJsonBtn" class="btn btn-primary">Export JSON</button>
+        <button id="exportCsvBtn" class="btn btn-ghost">Export CSV</button>
+        <button id="importJsonBtn" class="btn btn-ghost">Import JSON</button>
+        <input type="file" id="importFile" accept=".json,application/json" class="hidden" />
       </div>
-      <div class="relative">
-        <input type="file" id="importFile" accept=".json" class="hidden" />
-        <button id="importJsonBtn" class="w-full icon-btn text-sm font-bold border-slate-300 dark:border-slate-700">Import JSON</button>
-      </div>
-      <div class="pt-4 border-t border-slate-200 dark:border-slate-800">
-        <button id="clearDataBtn" class="w-full py-3 rounded-xl bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 font-bold text-sm hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-colors">
-          Clear All Data
-        </button>
-      </div>
-    </div>
-    <div class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-b-2xl flex justify-end">
-      <button id="closeDataModalBtn" class="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Close</button>
+      <div class="modal-divider"></div>
+      <button id="clearDataBtn" class="btn btn-danger-soft w-full">Clear all data…</button>
     </div>
   </dialog>
 
-  <!-- Budget Management Modal -->
-  <dialog id="budgetModal" class="panel w-full max-w-lg p-0 backdrop:bg-black/50 dark:backdrop:bg-black/70 open:animate-in open:fade-in open:zoom-in-95 duration-200">
-    <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
-      <div>
-        <h3 class="section-title">Manage Budgets</h3>
-        <p class="section-subtitle">Set monthly spending limits per category.</p>
-      </div>
-      <button id="closeBudgetModalBtn" class="icon-btn" aria-label="Close budget modal">
-        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+  <!-- ============ BUDGET MODAL ============ -->
+  <dialog id="budgetModal" class="modal modal-lg">
+    <div class="modal-head">
+      <h2 class="modal-title">Manage budgets</h2>
+      <button id="closeBudgetModalBtn" class="icon-btn" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
-    <div class="p-6 max-h-[60vh] overflow-y-auto" id="budgetFormContainer">
-      <!-- Populated by JS -->
+    <div class="modal-body">
+      <p class="modal-text">Set a monthly spending limit for each category. Leave blank or 0 for no limit.</p>
+      <div id="budgetFormContainer" class="budget-form"></div>
     </div>
-    <div class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-b-2xl flex justify-end gap-3">
-      <button id="cancelBudgetBtn" class="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Cancel</button>
-      <button id="saveBudgetsBtn" class="primary-btn px-6">Save Budgets</button>
+    <div class="modal-foot">
+      <button id="cancelBudgetBtn" class="btn btn-ghost">Cancel</button>
+      <button id="saveBudgetsBtn" class="btn btn-primary">Save budgets</button>
     </div>
   </dialog>
+
+  <!-- ============ CONFIRM MODAL ============ -->
+  <dialog id="confirmModal" class="modal">
+    <div class="modal-body">
+      <h2 class="modal-title" id="confirmTitle">Are you sure?</h2>
+      <p class="modal-text" id="confirmMessage"></p>
+      <div class="modal-foot modal-foot-right">
+        <button id="confirmCancelBtn" class="btn btn-ghost">Cancel</button>
+        <button id="confirmBtn" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ============ TOASTS ============ -->
+  <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="false"></div>
 
   <script src="app.js"></script>
 </body>
