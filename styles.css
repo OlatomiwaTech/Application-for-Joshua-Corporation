@@ -1,5 +1,9 @@
 :root {
   color-scheme: light;
+  --color-primary: 16 185 129;
+  --color-primary-dark: 4 120 87;
+  --color-danger: 244 63 94;
+  --color-warning: 245 158 11;
 }
 
 .dark {
@@ -7,23 +11,25 @@
 }
 
 body {
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   background-image:
-    radial-gradient(circle at 12% 8%, rgba(16, 185, 129, 0.16), transparent 28rem),
-    radial-gradient(circle at 82% 18%, rgba(14, 165, 233, 0.13), transparent 30rem);
+    radial-gradient(circle at 12% 8%, rgba(16, 185, 129, 0.08), transparent 28rem),
+    radial-gradient(circle at 82% 18%, rgba(14, 165, 233, 0.06), transparent 30rem);
+  background-attachment: fixed;
 }
 
+/* Brand & Navigation */
 .brand-logo-wrap {
   display: grid;
-  height: 52px;
-  width: 52px;
+  height: 44px;
+  width: 44px;
   flex: 0 0 auto;
   place-items: center;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 12px;
   border: 1px solid rgba(16, 185, 129, 0.24);
   background: white;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
 
 .brand-logo {
@@ -37,72 +43,58 @@ body {
   background: rgba(255, 255, 255, 0.92);
 }
 
-.nav-link {
-  display: flex;
-  align-items: center;
-  min-height: 44px;
-  border-radius: 12px;
-  padding: 0 14px;
-  color: rgb(71 85 105);
-  font-size: 14px;
-  font-weight: 700;
-  transition: color 180ms ease, background 180ms ease, transform 180ms ease;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  background: rgba(16, 185, 129, 0.12);
-  color: rgb(4 120 87);
-}
-
-.dark .nav-link {
-  color: rgb(203 213 225);
-}
-
-.dark .nav-link:hover,
-.dark .nav-link.active {
-  color: rgb(110 231 183);
-}
-
+/* Interactive Elements */
 .icon-btn {
   display: grid;
-  height: 44px;
-  width: 44px;
+  height: 40px;
+  width: 40px;
   place-items: center;
-  border-radius: 14px;
+  border-radius: 10px;
   border: 1px solid rgba(148, 163, 184, 0.35);
   background: rgba(255, 255, 255, 0.72);
   color: rgb(15 23 42);
-  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  transition: all 180ms ease;
 }
 
 .icon-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+  background: white;
 }
 
 .dark .icon-btn {
   background: rgba(255, 255, 255, 0.07);
   color: white;
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
+.dark .icon-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.icon-btn:focus-visible {
+  outline: 2px solid rgb(16 185 129);
+  outline-offset: 2px;
+}
+
+/* Cards & Panels */
 .summary-card,
 .panel {
-  border: 1px solid rgba(255, 255, 255, 0.52);
-  background: rgba(255, 255, 255, 0.78);
-  box-shadow: 0 22px 70px rgba(15, 23, 42, 0.1);
-  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+  backdrop-filter: blur(12px);
 }
 
 .dark .summary-card,
 .dark .panel {
-  border-color: rgba(255, 255, 255, 0.1);
-  background: rgba(15, 23, 42, 0.72);
-  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.6);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
 }
 
 .summary-card {
-  border-radius: 20px;
+  border-radius: 16px;
   padding: 20px;
   transition: transform 180ms ease, border-color 180ms ease;
 }
@@ -114,8 +106,8 @@ body {
 
 .summary-label {
   color: rgb(100 116 139);
-  font-size: 13px;
-  font-weight: 800;
+  font-size: 12px;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -125,21 +117,26 @@ body {
 }
 
 .summary-value {
-  margin-top: 10px;
-  font-size: clamp(1.7rem, 4vw, 2.35rem);
-  font-weight: 900;
-  letter-spacing: 0;
+  margin-top: 8px;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .panel {
-  border-radius: 22px;
-  padding: 22px;
+  border-radius: 20px;
+  padding: 24px;
 }
 
 .section-title {
-  font-size: 18px;
-  font-weight: 850;
-  letter-spacing: 0;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: rgb(15 23 42);
+}
+
+.dark .section-title {
+  color: white;
 }
 
 .section-subtitle {
@@ -153,12 +150,15 @@ body {
   color: rgb(148 163 184);
 }
 
+/* Forms */
 .field-label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   color: rgb(51 65 85);
-  font-size: 13px;
-  font-weight: 800;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .dark .field-label {
@@ -166,9 +166,9 @@ body {
 }
 
 .field {
-  min-height: 46px;
+  min-height: 44px;
   width: 100%;
-  border-radius: 14px;
+  border-radius: 12px;
   border: 1px solid rgba(148, 163, 184, 0.38);
   background: rgba(255, 255, 255, 0.82);
   padding: 0 14px;
@@ -176,7 +176,7 @@ body {
   font-size: 14px;
   font-weight: 600;
   outline: none;
-  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  transition: all 180ms ease;
 }
 
 .field::placeholder {
@@ -185,12 +185,13 @@ body {
 
 .field:focus {
   border-color: rgb(16 185 129);
-  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.14);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.14);
+  background: white;
 }
 
 .field.invalid {
   border-color: rgb(244 63 94);
-  box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.12);
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.12);
 }
 
 .dark .field {
@@ -199,20 +200,26 @@ body {
   color: white;
 }
 
-.error-message {
-  min-height: 18px;
-  margin-top: 6px;
-  color: rgb(225 29 72);
-  font-size: 12px;
-  font-weight: 700;
+.dark .field:focus {
+  background: rgba(15, 23, 42, 0.95);
 }
 
+.error-message {
+  min-height: 18px;
+  margin-top: 4px;
+  color: rgb(225 29 72);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Segmented Control */
 .segmented {
   display: inline-grid;
-  grid-template-columns: repeat(2, minmax(74px, 1fr));
-  border-radius: 14px;
-  background: rgba(15, 23, 42, 0.08);
+  grid-template-columns: repeat(2, 1fr);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.06);
   padding: 4px;
+  gap: 4px;
 }
 
 .dark .segmented {
@@ -224,18 +231,18 @@ body {
   min-height: 36px;
   cursor: pointer;
   place-items: center;
-  border-radius: 11px;
+  border-radius: 8px;
   padding: 0 12px;
   color: rgb(71 85 105);
   font-size: 13px;
-  font-weight: 800;
-  transition: color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+  font-weight: 700;
+  transition: all 180ms ease;
 }
 
 .segmented input:checked + span {
-  background: rgb(255 255 255);
-  color: rgb(4 120 87);
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+  background: white;
+  color: var(--color-primary-dark);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
 }
 
 .dark .segmented span {
@@ -245,36 +252,58 @@ body {
 .dark .segmented input:checked + span {
   background: rgb(16 185 129);
   color: rgb(2 44 34);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Buttons */
 .primary-btn {
-  min-height: 48px;
-  border-radius: 14px;
+  min-height: 44px;
+  border-radius: 12px;
   background: linear-gradient(135deg, rgb(16 185 129), rgb(20 184 166));
   color: white;
-  font-weight: 900;
-  box-shadow: 0 18px 32px rgba(16, 185, 129, 0.28);
-  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.28);
+  transition: all 180ms ease;
 }
 
 .primary-btn:hover {
   transform: translateY(-1px);
-  filter: saturate(1.08);
-  box-shadow: 0 22px 42px rgba(16, 185, 129, 0.34);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.34);
 }
 
+.primary-btn:active {
+  transform: translateY(0);
+}
+
+.primary-btn:focus-visible {
+  outline: 2px solid rgb(16 185 129);
+  outline-offset: 2px;
+}
+
+/* Transactions */
 .transaction-item {
   animation: itemIn 280ms ease both;
   border: 1px solid rgba(148, 163, 184, 0.22);
-  border-radius: 18px;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.66);
-  padding: 14px;
-  transition: transform 180ms ease, border-color 180ms ease, opacity 220ms ease;
+  padding: 16px;
+  transition: all 180ms ease;
 }
 
 .transaction-item:hover {
   transform: translateY(-1px);
   border-color: rgba(16, 185, 129, 0.38);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.dark .transaction-item {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.dark .transaction-item:hover {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .transaction-item.removing {
@@ -282,28 +311,34 @@ body {
   transform: translateX(18px) scale(0.98);
 }
 
-.dark .transaction-item {
-  border-color: rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.06);
+.delete-btn, .edit-btn {
+  display: grid;
+  height: 36px;
+  width: 36px;
+  place-items: center;
+  border-radius: 10px;
+  transition: all 180ms ease;
 }
 
 .delete-btn {
-  display: grid;
-  height: 38px;
-  width: 38px;
-  place-items: center;
-  border-radius: 12px;
   color: rgb(225 29 72);
-  transition: background 180ms ease, transform 180ms ease;
 }
 
 .delete-btn:hover {
   background: rgba(244, 63, 94, 0.12);
-  transform: scale(1.03);
 }
 
+.edit-btn {
+  color: rgb(59 130 246);
+}
+
+.edit-btn:hover {
+  background: rgba(59, 130, 246, 0.12);
+}
+
+/* Progress & Budgets */
 .progress-track {
-  height: 10px;
+  height: 8px;
   overflow: hidden;
   border-radius: 999px;
   background: rgba(148, 163, 184, 0.2);
@@ -316,6 +351,27 @@ body {
   transition: width 420ms ease;
 }
 
+.progress-fill.warning {
+  background: linear-gradient(90deg, rgb(245 158 11), rgb(249 115 22));
+}
+
+.progress-fill.danger {
+  background: linear-gradient(90deg, rgb(244 63 94), rgb(225 29 72));
+}
+
+/* Native Dialog */
+dialog {
+  border: none;
+  border-radius: 20px;
+  margin: auto;
+}
+
+dialog::backdrop {
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+/* Animations */
 @keyframes itemIn {
   from {
     opacity: 0;
@@ -327,13 +383,12 @@ body {
   }
 }
 
-@media (max-width: 420px) {
-  .panel,
-  .summary-card {
+@media (max-width: 640px) {
+  .panel, .summary-card {
     border-radius: 16px;
     padding: 16px;
   }
-
+  
   .segmented {
     width: 100%;
   }
